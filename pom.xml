@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--suppress MavenRedundantGroupId -->
+    <groupId>com.github.bednar</groupId>
+    <artifactId>maven-parent-javascript-library</artifactId>
+    <version>1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.github.bednar</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
+    <name>Maven Parent: JavaScript library</name>
+    <description>Maven parent module with configuration of dependencies and plugins for JavaScript library.</description>
+
+    <url>https://github.com/bednar/maven-parent-javascript-library</url>
+
+    <licenses>
+        <license>
+            <name>New BSD License</name>
+            <url>https://raw.github.com/bednar/maven-parent-javascript-library/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:bednar/maven-parent-javascript-library.git</connection>
+        <developerConnection>scm:git:git@github.com:bednar/maven-parent-javascript-library.git</developerConnection>
+        <url>git@github.com:bednar/maven-parent-javascript-library.git</url>
+    </scm>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <configuration>
+                    <charset>${default.encoding}</charset>
+                    <webappSourceDir>${project.basedir}/src/main/resources</webappSourceDir>
+                    <webappTargetDir>${project.build.outputDirectory}/</webappTargetDir>
+                    <jsSourceDir>lib</jsSourceDir>
+                    <jsSourceIncludes>
+                        <jsSourceInclude>**/*.js</jsSourceInclude>
+                    </jsSourceIncludes>
+                    <skipMerge>true</skipMerge>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.outputDirectory}</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
